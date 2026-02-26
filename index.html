@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Focus Pilot Pro - Productivity Extension</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Focus Pilot Pro - A powerful Firefox extension to manage tasks, auto-open tabs, and track focus sessions with countdown timers.">
+    <meta name="keywords" content="firefox extension, productivity, task manager, tab opener, focus timer">
+    <meta name="author" content="Nahid Mahmud">
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="Focus Pilot Pro">
+    <meta property="og:description" content="Boost productivity with automated task manager that launches workflow tabs and tracks focus sessions.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://focuspilotpro.com">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --text: #f8fafc;
+            --primary: #38bdf8;
+            --success: #10b981;
+            --warning: #fbbf24;
+            --danger: #f43f5e;
+            --border: #334155;
+            --gradient-1: linear-gradient(135deg, #38bdf8, #10b981);
+            --gradient-2: linear-gradient(135deg, #f43f5e, #fbbf24);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: var(--card);
+            padding: 1rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo span {
+            background: var(--gradient-2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            transition: 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .download-btn {
+            background: var(--gradient-1);
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: bold;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(56, 189, 248, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 150px 5% 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero-content .highlight {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: block;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            margin-bottom: 30px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn-primary {
+            background: var(--gradient-1);
+            color: white;
+            padding: 15px 35px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(56, 189, 248, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--card);
+            color: var(--text);
+            padding: 15px 35px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            border: 1px solid var(--border);
+            transition: 0.3s;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .hero-image {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .popup-preview {
+            background: var(--bg);
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .preview-title {
+            color: var(--primary);
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .preview-settings {
+            width: 30px;
+            height: 30px;
+            background: var(--card);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .preview-countdown {
+            background: var(--gradient-2);
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .preview-countdown span {
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .preview-timer {
+            background: var(--card);
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid var(--danger);
+            margin-top: 20px;
+        }
+
+        .preview-timer .time {
+            font-size: 2.5rem;
+            font-family: monospace;
+            color: var(--danger);
+            font-weight: bold;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 5%;
+            background: var(--card);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+        }
+
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: var(--bg);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            transition: 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .feature-card p {
+            color: #94a3b8;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 80px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 20px;
+        }
+
+        .step h3 {
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .step p {
+            color: #94a3b8;
+        }
+
+        /* Stats */
+        .stats {
+            padding: 60px 5%;
+            background: var(--card);
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+
+        .stat-item h2 {
+            font-size: 3rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-item p {
+            color: #94a3b8;
+            font-size: 1.1rem;
+        }
+
+        /* Download Section */
+        .download {
+            padding: 80px 5%;
+            text-align: center;
+        }
+
+        .download-card {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--card);
+            padding: 50px;
+            border-radius: 30px;
+            border: 1px solid var(--border);
+        }
+
+        .download-card h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .download-card p {
+            color: #94a3b8;
+            margin-bottom: 30px;
+        }
+
+        .firefox-badge {
+            background: rgba(56, 189, 248, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .firefox-badge i {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .firefox-badge h3 {
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .firefox-badge p {
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+
+        .download-btn-large {
+            display: inline-block;
+            background: var(--gradient-1);
+            color: white;
+            padding: 20px 50px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .download-btn-large:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(56, 189, 248, 0.4);
+        }
+
+        /* FAQ */
+        .faq {
+            padding: 80px 5%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            background: var(--card);
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.3s;
+        }
+
+        .faq-question:hover {
+            background: var(--bg);
+        }
+
+        .faq-question h3 {
+            font-size: 1.1rem;
+        }
+
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: 0.3s;
+            background: var(--bg);
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 20px;
+            max-height: 200px;
+        }
+
+        .faq-answer p {
+            color: #94a3b8;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--card);
+            padding: 50px 5% 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .footer-section h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .footer-section p {
+            color: #94a3b8;
+            margin-bottom: 10px;
+        }
+
+        .footer-section i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .social-links a {
+            color: var(--text);
+            font-size: 1.5rem;
+            transition: 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            color: #94a3b8;
+        }
+
+        .footer-bottom a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1>FOCUS <span>PILOT</span> PRO</h1>
+            </div>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#download">Download</a>
+                <a href="#faq">FAQ</a>
+                <a href="#contact">Contact</a>
+                <a href="#download" class="download-btn"><i class="fas fa-download"></i> Install</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>
+                <span class="highlight">Boost Your</span>
+                <span class="highlight">Productivity</span>
+                with Smart Task Management
+            </h1>
+            <p>Automate your workflow with intelligent tab opening and focus tracking. Let Focus Pilot Pro handle your tasks while you focus on what matters.</p>
+            <div class="hero-buttons">
+                <a href="#download" class="btn-primary"><i class="fas fa-download"></i> Install Now</a>
+                <a href="#features" class="btn-secondary"><i class="fas fa-play"></i> See Features</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="popup-preview">
+                <div class="preview-header">
+                    <span class="preview-title">🚀 FOCUS PILOT PRO</span>
+                    <span class="preview-settings">⚙️</span>
+                </div>
+                <div class="preview-countdown">
+                    <span>5</span> min
+                </div>
+                <div class="preview-timer">
+                    <div class="time">25:00</div>
+                    <div>Task: Executing...</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats">
+        <div class="stats-container">
+            <div class="stat-item">
+                <h2>0.0ms</h2>
+                <p>Background Latency</p>
+            </div>
+            <div class="stat-item">
+                <h2>100%</h2>
+                <p>No-Data-Collection</p>
+            </div>
+            <div class="stat-item">
+                <h2>100%</h2>
+                <p>Free & Open Source</p>
+            </div>
+            <div class="stat-item">
+                <h2>24/7</h2>
+                <p>Support Available</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <h2 class="section-title">Why Choose Focus Pilot Pro?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-tasks"></i></div>
+                <h3>Smart Task Management</h3>
+                <p>Create and manage multiple tasks with custom time durations. Set up your workflow in seconds.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-clock"></i></div>
+                <h3>Countdown Timer</h3>
+                <p>Set countdown before mission starts (1-30 minutes). Perfect for preparation time.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-coffee"></i></div>
+                <h3>Break System</h3>
+                <p>Add custom breaks between tasks (0-30 minutes). Skip breaks by setting to 0.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-bell"></i></div>
+                <h3>Smart Alerts</h3>
+                <p>Get notified when tasks start/end. Urgent alarms for last 10 seconds.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+                <h3>Live Progress Tracking</h3>
+                <p>See timer on extension badge. Track your progress in real-time.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+                <h3>Privacy First</h3>
+                <p>No data collection. All settings stored locally on your device.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="how-it-works">
+        <h2 class="section-title">How It Works</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Set Your Tasks</h3>
+                <p>Add your tasks with links and set time duration for each.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Configure Breaks</h3>
+                <p>Add breaks between tasks or skip them by setting to 0.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Start Mission</h3>
+                <p>Click START and let the extension handle everything.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <h3>Stay Focused</h3>
+                <p>Watch your progress and get alerts when tasks complete.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section id="download" class="download">
+        <div class="download-card">
+            <h2>Ready to Boost Your Productivity?</h2>
+            <p>"Take control of your workflow and eliminate distractions with Focus Pilot Pro today."</p>
+            <div class="firefox-badge">
+                <i class="fab fa-firefox-browser"></i>
+                <h3>Available for Firefox</h3>
+                <p>Version 109.0 and above</p>
+            </div>
+            <a href="#" class="download-btn-large" onclick="downloadExtension()">
+                <i class="fas fa-download"></i> Download Now
+            </a>
+            <p style="margin-top: 20px; font-size: 0.9rem;">Free • No Data Collection • Open Source</p>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="faq">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <h3>Is Focus Pilot Pro really free?</h3>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Yes! Focus Pilot Pro is completely free and will remain free forever. No hidden costs, no premium features.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <h3>Does it collect my data?</h3>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>No data collection at all. All your settings and tasks are stored locally on your device.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <h3>Which browsers are supported?</h3>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Currently Firefox (version 109+). Chrome version coming soon!</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <h3>Can I use it for work/study?</h3>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Absolutely! It's perfect for students, freelancers, developers, and anyone who wants to stay organized.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Focus Pilot Pro</h3>
+                <p>Boost productivity with automated task manager that launches workflow tabs and tracks focus sessions.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p><i class="fas fa-map-marker-alt"></i> Chowhodditola, Chapainawabganj, Bangladesh</p>
+                <p><i class="fas fa-envelope"></i> tohidul07890@gmail.com</p>
+                <p><i class="fas fa-phone"></i> +880 1XXX-XXXXXX</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <p><a href="#features">Features</a></p>
+                <p><a href="#how-it-works">How It Works</a></p>
+                <p><a href="#download">Download</a></p>
+                <p><a href="#faq">FAQ</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Connect</h3>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/nahid-mahmud-py" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://github.com/Nahid-mahmud555" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.facebook.com/ARE.YOU.SAFE.OR.NOT.BASH" target="_blank"><i class="fab fa-facebook"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Focus Pilot Pro. Created with ❤️ in Chowhodditola, Chapainawabganj, Bangladesh.</p>
+            <p>All rights reserved. This tool will remain <strong>FREE</strong> forever.</p>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ Toggle Function
+        function toggleFaq(element) {
+            const faqItem = element.parentElement;
+            faqItem.classList.toggle('active');
+            
+            const icon = element.querySelector('i');
+            if (faqItem.classList.contains('active')) {
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            } else {
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            }
+        }
+
+        // Download Function - Mozilla Store Redirect
+        function downloadExtension() {
+            // 🔴 এখানে তোমার এক্সটেনশনের Mozilla Store লিংক বসাও
+            const storeUrl = 'https://addons.mozilla.org/en-US/firefox/addon/focus-pilot-pro/';
+            window.open(storeUrl, '_blank');
+        }
+
+        // Smooth Scroll for Navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.background = '#1e293b';
+                navbar.style.boxShadow = '0 5px 20px rgba(0,0,0,0.3)';
+            } else {
+                navbar.style.background = 'var(--card)';
+                navbar.style.boxShadow = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
