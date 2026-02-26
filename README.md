@@ -23,6 +23,15 @@ You can download the latest version of **Focus Pilot Pro** directly from our off
 
 ---
 
+# 🚀 Focus Pilot Pro
+
+<p align="center">
+  <img src="Screenshot 2026-02-26 at 22-20-57 Focus Pilot Pro.png" width="400" title="Focus Pilot Pro Dashboard">
+  <img src="Screenshot 2026-02-26 at 22-21-51 Focus Pilot Pro.png" width="400" title="Task Setup">
+</p>
+
+**Focus Pilot Pro** is a high-performance Firefox extension...
+
 ## 🛠️ How It Works
 
 1.  **Plan:** Add your tasks, set durations, and paste the relevant links.
