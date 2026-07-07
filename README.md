@@ -290,7 +290,7 @@ Compatible with:
 ### Steps
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/Focus-Pilot.git
+git clone https://github.com/Nahid-mahmud555/focus-pilot-pro-official.git
 ```
 
 1. Open:
