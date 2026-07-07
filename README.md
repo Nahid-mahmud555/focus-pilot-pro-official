@@ -36,7 +36,7 @@ Focus Pilot attempts to redesign this interaction layer.
 ---
 
 
-[![Get the Firefox Add-on](https://img.shields.io/badge/Firefox-Add--on-FF7139?style=for-the-badge&logo=firefox-browser&logoColor=white)](https://addons.mozilla.org/en-US/firefox/addon/focus-pilot-pro/)
+📥 **Install the Extension:** [Get it on Firefox Add-ons Store](https://addons.mozilla.org/en-US/firefox/addon/focus-pilot-pro/)
 
 
 
