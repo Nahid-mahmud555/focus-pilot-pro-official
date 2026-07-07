@@ -34,7 +34,11 @@ The project explores a simple but powerful hypothesis:
 Focus Pilot attempts to redesign this interaction layer.
 
 ---
+
+
 [![Get the Firefox Add-on](https://img.shields.io/badge/Firefox-Add--on-FF7139?style=for-the-badge&logo=firefox-browser&logoColor=white)](https://addons.mozilla.org/en-US/firefox/addon/focus-pilot-pro/)
+
+
 
 <p align="center">
   <img src="Screenshot 2026-07-07 at 19-29-01 Focus Pilot Pro • centered.png" width="400" title="Light Dashboard">
