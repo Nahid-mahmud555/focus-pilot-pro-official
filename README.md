@@ -35,6 +35,11 @@ Focus Pilot attempts to redesign this interaction layer.
 
 ---
 
+<p align="center">
+  <img src="Screenshot 2026-02-26 at 22-20-57 Focus Pilot Pro.png" width="400" title="Focus Pilot Pro Dashboard">
+  <img src="Screenshot 2026-02-26 at 22-21-51 Focus Pilot Pro.png" width="400" title="Task Setup">
+</p>  
+
 # 🎯 Why Focus Pilot Exists
 
 Modern browsers have become the primary operating environment for developers, researchers, students, founders, and knowledge workers.
@@ -333,6 +338,14 @@ manifest.json
 ```
 
 ---
+
+
+## 📥 Get Focus Pilot Pro
+
+You can download the latest version of **Focus Pilot Pro** directly from our official website.
+
+### [👉 Download from Official Website](https://full-f.vercel.app/)
+
 
 # 📚 Potential Use Cases
 
