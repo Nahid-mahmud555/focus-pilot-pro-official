@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Focus Pilot Pro</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* ========== LIGHT MODE (default) ========== */
+    :root {
+      --bg: #f5f7fb;
+      --surface: #ffffff;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --accent: #3b82f6;
+      --accent-light: #eef4ff;
+      --success: #10b981;
+      --success-light: #ecfdf5;
+      --warning: #f59e0b;
+      --warning-light: #fffbeb;
+      --danger: #ef4444;
+      --danger-light: #fef2f2;
+      --border: #e2e8f0;
+      --border-light: #f1f5f9;
+      --shadow-card: 0 10px 25px -8px rgba(0,0,0,0.04), 0 4px 10px rgba(0,0,0,0.02);
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.03);
+      --radius-xl: 24px;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-sm: 10px;
+      --radius-full: 50px;
+      --input-bg: #f9fafb;
+      --card-bg: #ffffff;
+      --card-border: #e9eef3;
+      --time-row-bg: #f8fafc;
+      --timer-panel-bg: #f9fafb;
+      --countdown-card-bg: #fff7ed;
+      --countdown-border: #fed7aa;
+      --task-counter-bg: #f8fafc;
+      --moon-display: inline;
+      --sun-display: none;
+      --break-row-bg: rgba(16,185,129,0.06);
+      --settings-text: #475569;
+      --task-header-color: #64748b;
+      --countdown-label-color: #c2410c;
+      --countdown-value-color: #9a3412;
+      --countdown-btn-color: #c2410c;
+      --counter-number-color: #1e40af;
+      --timer-big-color: #b91c1c;
+      --task-current-color: #059669;
+      --alert-note-color: #92400e;
+      --alert-note-bg: #fffbeb;
+      --alert-note-border: #fde68a;
+      --btn-secondary-color: #b91c1c;
+      --btn-secondary-border: #fecaca;
+      --btn-secondary-hover-bg: #fef2f2;
+      --task-time-value-color: #065f46;
+      --task-time-btn-bg: #ecfdf5;
+      --task-time-btn-color: #059669;
+    }
+
+    /* ========== DARK MODE ========== */
+    #dark-mode-checkbox:checked ~ .app-wrapper {
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --text-primary: #f1f5f9;
+      --text-secondary: #cbd5e1;
+      --accent: #60a5fa;
+      --accent-light: #1e3a5f;
+      --success: #34d399;
+      --success-light: #064e3b;
+      --warning: #fbbf24;
+      --warning-light: #78350f;
+      --danger: #f87171;
+      --danger-light: #7f1d1d;
+      --border: #334155;
+      --border-light: #1e293b;
+      --shadow-card: 0 10px 25px -8px rgba(0,0,0,0.3);
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.2);
+      --input-bg: #0f172a;
+      --card-bg: #1e293b;
+      --card-border: #334155;
+      --time-row-bg: #0f172a;
+      --timer-panel-bg: #1e293b;
+      --countdown-card-bg: #451a03;
+      --countdown-border: #78350f;
+      --task-counter-bg: #1e293b;
+      --moon-display: none;
+      --sun-display: inline;
+      --break-row-bg: rgba(16,185,129,0.08);
+      --settings-text: #cbd5e1;
+      --task-header-color: #94a3b8;
+      --countdown-label-color: #fbbf24;
+      --countdown-value-color: #fbbf24;
+      --countdown-btn-color: #fbbf24;
+      --counter-number-color: #60a5fa;
+      --timer-big-color: #f87171;
+      --task-current-color: #34d399;
+      --alert-note-color: #fbbf24;
+      --alert-note-bg: #451a03;
+      --alert-note-border: #78350f;
+      --btn-secondary-color: #f87171;
+      --btn-secondary-border: #7f1d1d;
+      --btn-secondary-hover-bg: #7f1d1d;
+      --task-time-value-color: #34d399;
+      --task-time-btn-bg: #064e3b;
+      --task-time-btn-color: #34d399;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    body {
+      width: 500px;
+      min-height: 620px;
+      padding: 20px;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .app-wrapper {
+      width: 100%;
+      transition: all 0.3s;
+    }
+
+    .container {
+      background: var(--surface);
+      border-radius: var(--radius-xl);
+      padding: 24px 22px 22px;
+      box-shadow: var(--shadow-card);
+      border: 1px solid var(--border);
+      width: 100%;
+      transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+    }
+
+    /* ========== HEADER ========== */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 22px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-icon {
+      background: linear-gradient(145deg, #2563eb, #1d4ed8);
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 8px 16px rgba(37,99,235,0.2);
+    }
+
+    h2 {
+      font-size: 21px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.3px;
+    }
+    h2 span {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .icon-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      cursor: pointer;
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      transition: all 0.2s;
+      position: relative;
+      text-decoration: none;
+      user-select: none;
+    }
+    .icon-btn:hover {
+      background: var(--accent-light);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .dark-toggle-label {
+      cursor: pointer;
+    }
+    .moon-icon { display: var(--moon-display); }
+    .sun-icon { display: var(--sun-display); }
+
+    /* ========== COUNTDOWN CARD ========== */
+    .countdown-card {
+      background: var(--countdown-card-bg);
+      border: 1px solid var(--countdown-border);
+      padding: 14px 18px;
+      border-radius: var(--radius-lg);
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .countdown-label {
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--countdown-label-color);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .countdown-controls {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: var(--surface);
+      padding: 6px 16px;
+      border-radius: 40px;
+      border: 1px solid var(--countdown-border);
+      transition: background 0.3s;
+    }
+    .countdown-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: none;
+      background: var(--countdown-card-bg);
+      color: var(--countdown-btn-color);
+      font-size: 20px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+      font-family: inherit;
+    }
+    .countdown-btn:hover {
+      background: var(--countdown-border);
+    }
+    .countdown-value {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--countdown-value-color);
+      min-width: 40px;
+      text-align: center;
+    }
+
+    /* ========== TASK COUNTER ========== */
+    .task-counter {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--task-counter-bg);
+      padding: 12px 18px;
+      border-radius: var(--radius-full);
+      margin-bottom: 16px;
+      border: 1px solid var(--border);
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .counter-label {
+      font-weight: 600;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .counter-controls {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .counter-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: none;
+      background: #dbeafe;
+      color: #2563eb;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-family: inherit;
+    }
+    #dark-mode-checkbox:checked ~ .app-wrapper .counter-btn {
+      background: #1e3a5f;
+      color: #60a5fa;
+    }
+    .counter-btn.minus {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+    #dark-mode-checkbox:checked ~ .app-wrapper .counter-btn.minus {
+      background: #7f1d1d;
+      color: #f87171;
+    }
+    .counter-btn:hover {
+      filter: brightness(0.92);
+    }
+    .counter-number {
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--counter-number-color);
+      min-width: 28px;
+      text-align: center;
+    }
+
+    /* ========== TASK LIST ========== */
+    .task-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin: 8px 0 12px;
+      max-height: 320px;
+      overflow-y: auto;
+      padding-right: 6px;
+      scroll-behavior: smooth;
+    }
+    .task-list::-webkit-scrollbar { width: 5px; }
+    .task-list::-webkit-scrollbar-track { background: transparent; }
+    .task-list::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+    #dark-mode-checkbox:checked ~ .app-wrapper .task-list::-webkit-scrollbar-thumb { background: #475569; }
+
+    .task-item {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-left: 5px solid #3b82f6;
+      border-radius: var(--radius-md);
+      padding: 14px 14px 12px;
+      box-shadow: var(--shadow-sm);
+      transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+      margin-bottom: 0;
+    }
+    #dark-mode-checkbox:checked ~ .app-wrapper .task-item {
+      border-left-color: #60a5fa;
+    }
+
+    .task-header {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--task-header-color);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .task-link-input {
+      width: 100%;
+      padding: 11px 14px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--border);
+      background: var(--input-bg);
+      font-size: 14px;
+      color: var(--text-primary);
+      outline: none;
+      transition: all 0.2s;
+      font-family: inherit;
+      margin-bottom: 10px;
+    }
+    .task-link-input:focus {
+      border-color: #3b82f6;
+      background: var(--surface);
+      box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+    }
+    .task-link-input::placeholder {
+      color: #94a3b8;
+      font-weight: 400;
+    }
+
+    .task-time-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--time-row-bg);
+      padding: 8px 14px;
+      border-radius: 30px;
+      border: 1px solid var(--border);
+      transition: background 0.3s, border-color 0.3s;
+      margin-top: 6px;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+    .task-time-row.break-row {
+      background: var(--break-row-bg);
+    }
+
+    .task-time-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .task-time-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: none;
+      background: var(--task-time-btn-bg);
+      color: var(--task-time-btn-color);
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, transform 0.1s;
+      padding: 0;
+      line-height: 1;
+      font-family: inherit;
+    }
+    .task-time-btn:hover {
+      background: #d1fae5;
+      transform: scale(1.05);
+    }
+    #dark-mode-checkbox:checked ~ .app-wrapper .task-time-btn:hover {
+      background: #065f46;
+    }
+    .task-time-btn:active {
+      transform: scale(0.95);
+    }
+    .task-time-value {
+      font-weight: 600;
+      min-width: 44px;
+      text-align: center;
+      color: var(--task-time-value-color);
+      font-size: 14px;
+    }
+
+    /* ========== ACTION BUTTONS ========== */
+    .action-row {
+      display: flex;
+      gap: 12px;
+      margin: 18px 0 8px;
+    }
+    .btn-primary {
+      flex: 1;
+      background: #10b981;
+      color: white;
+      font-size: 15px;
+      padding: 14px 10px;
+      border: none;
+      border-radius: 40px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(16,185,129,0.25);
+      letter-spacing: 0.3px;
+      transition: all 0.2s;
+      text-align: center;
+      font-family: inherit;
+    }
+    .btn-primary:hover {
+      background: #059669;
+      box-shadow: 0 10px 22px rgba(16,185,129,0.35);
+    }
+    .btn-primary:disabled {
+      background: #64748b;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .btn-secondary {
+      flex: 1;
+      background: var(--surface);
+      color: var(--btn-secondary-color);
+      font-weight: 700;
+      border: 2px solid var(--btn-secondary-border);
+      border-radius: 40px;
+      cursor: pointer;
+      font-size: 15px;
+      padding: 14px 10px;
+      transition: all 0.2s;
+      text-align: center;
+      font-family: inherit;
+    }
+    .btn-secondary:hover {
+      background: var(--btn-secondary-hover-bg);
+      border-color: #f87171;
+    }
+    .btn-secondary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* ========== TIMER PANEL ========== */
+    #timer-container {
+      text-align: center;
+      margin-top: 16px;
+      padding: 18px 14px;
+      background: var(--timer-panel-bg);
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .timer-big {
+      font-size: 50px;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      color: var(--timer-big-color);
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+    #current-task-name {
+      font-size: 14px;
+      color: var(--task-current-color);
+      margin: 6px 0 2px;
+      font-weight: 500;
+    }
+
+    /* ========== SETTINGS PANEL ========== */
+    #settings-panel {
+      display: none;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      margin-bottom: 16px;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .settings-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      color: var(--text-primary);
+    }
+    .settings-row label {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+    .settings-row select,
+    .settings-row input {
+      padding: 6px 8px;
+      background: var(--input-bg);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: inherit;
+    }
+    .settings-row select option {
+      background: var(--surface);
+      color: var(--text-primary);
+    }
+    .settings-row input[type="range"] {
+      width: 120px;
+      accent-color: var(--accent);
+    }
+
+    #testSoundBtn {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      padding: 8px;
+      background: var(--task-time-btn-bg);
+      color: var(--task-time-btn-color);
+      border: none;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 14px;
+    }
+    #testSoundBtn:hover {
+      filter: brightness(0.9);
+    }
+
+    #closeSettingsBtn {
+      width: 100%;
+      padding: 6px;
+      font-size: 13px;
+      background: var(--surface);
+      color: var(--btn-secondary-color);
+      font-weight: 700;
+      border: 2px solid var(--btn-secondary-border);
+      border-radius: 40px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+      font-family: inherit;
+    }
+    #closeSettingsBtn:hover {
+      background: var(--btn-secondary-hover-bg);
+      border-color: #f87171;
+    }
+
+    .alert-note {
+      font-size: 11px;
+      color: var(--alert-note-color);
+      background: var(--alert-note-bg);
+      padding: 5px 14px;
+      border-radius: 20px;
+      display: inline-block;
+      border: 1px solid var(--alert-note-border);
+      margin-top: 4px;
+    }
+
+    hr {
+      border: 0.5px solid var(--border);
+      margin: 14px 0;
+      transition: border-color 0.3s;
+    }
+
+    .dark-toggle-label .moon-icon,
+    .dark-toggle-label .sun-icon {
+      transition: transform 0.3s;
+      display: inline-block;
+    }
+    #dark-mode-checkbox:checked ~ .app-wrapper .dark-toggle-label .moon-icon,
+    #dark-mode-checkbox:checked ~ .app-wrapper .dark-toggle-label .sun-icon {
+      transform: rotate(360deg);
+    }
+
+    /* Ensure all text inside task-time-row is visible */
+    .task-time-row span {
+      color: var(--text-secondary);
+    }
+    #dark-mode-checkbox:checked ~ .app-wrapper .task-time-row span {
+      color: var(--text-secondary);
+    }
+  </style>
+</head>
+<body>
+
+  <input type="checkbox" id="dark-mode-checkbox" class="sr-only">
+
+  <div class="app-wrapper">
+    <div class="container">
+
+      <!-- ========== HEADER ========== -->
+      <div class="header">
+        <div class="brand">
+          <div class="logo-icon">🧭</div>
+          <h2>Focus Pilot <span>Pro</span></h2>
+        </div>
+        <div class="header-actions">
+          <label for="dark-mode-checkbox" class="icon-btn dark-toggle-label" title="Toggle dark mode">
+            <span class="moon-icon">🌙</span>
+            <span class="sun-icon">☀️</span>
+          </label>
+          <div class="icon-btn" id="refreshBtn" title="Refresh">🔄</div>
+          <div class="icon-btn" id="settingsBtn" title="Settings">⚙️</div>
+        </div>
+      </div>
+
+      <!-- ========== SETTINGS PANEL ========== -->
+      <div id="settings-panel">
+        <div class="settings-row">
+          <label>🔔 Alert Sound:</label>
+          <select id="tone-select">
+            <option value="440">Low Frequency</option>
+            <option value="880" selected>Standard Beep</option>
+            <option value="1200">High Pitch</option>
+          </select>
+        </div>
+        <div class="settings-row">
+          <label>🔊 Volume:</label>
+          <input type="range" id="volume-control" min="0" max="1" step="0.1" value="0.7">
+        </div>
+        <button id="testSoundBtn">🎵 Test Sound</button>
+        <button id="closeSettingsBtn">Close Settings</button>
+      </div>
+
+      <!-- ========== COUNTDOWN SELECTOR ========== -->
+      <div class="countdown-card">
+        <span class="countdown-label">⏳ Start countdown (Min)</span>
+        <div class="countdown-controls">
+          <button class="countdown-btn" id="decreaseCountdown">−</button>
+          <span class="countdown-value" id="countdownDisplay">1</span>
+          <button class="countdown-btn" id="increaseCountdown">+</button>
+        </div>
+      </div>
+
+      <!-- ========== TASK COUNTER ========== -->
+      <div class="task-counter">
+        <span class="counter-label">📋 Total Tasks</span>
+        <div class="counter-controls">
+          <button class="counter-btn minus" id="decreaseTasks">−</button>
+          <span class="counter-number" id="taskCount">2</span>
+          <button class="counter-btn" id="increaseTasks">+</button>
+        </div>
+      </div>
+
+      <!-- ========== TASK LIST (JS renders .task-item elements here) ========== -->
+      <div class="task-list" id="task-list">
+        <!-- JS populates this container dynamically -->
+      </div>
+
+      <!-- ========== ACTION BUTTONS ========== -->
+      <div class="action-row">
+        <button class="btn-primary" id="startMissionBtn">▶ START MISSION</button>
+        <button class="btn-secondary" id="stopMissionBtn" disabled>⏹️ STOP</button>
+      </div>
+
+      <!-- ========== TIMER DISPLAY ========== -->
+      <div class="timer-panel" id="timer-container" style="display: none;">
+        <div class="timer-big" id="timer-display">00:00</div>
+        <div id="current-task-name">✨ Ready to focus</div>
+        <div class="alert-note">⚠️ Loud alert in final 10 seconds</div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
