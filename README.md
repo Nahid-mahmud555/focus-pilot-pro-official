@@ -36,8 +36,10 @@ Focus Pilot attempts to redesign this interaction layer.
 ---
 
 <p align="center">
-  <img src="Screenshot 2026-02-26 at 22-20-57 Focus Pilot Pro.png" width="400" title="Focus Pilot Pro Dashboard">
-  <img src="Screenshot 2026-02-26 at 22-21-51 Focus Pilot Pro.png" width="400" title="Task Setup">
+  <img src="Screenshot 2026-07-07 at 19-29-01 Focus Pilot Pro • centered.png" width="400" title="Light Dashboard">
+  <img src="Screenshot 2026-07-07 at 19-29-39 Focus Pilot Pro • centered.png" width="400" title="Dark Dashboard">
+  <img src="Screenshot 2026-07-07 at 19-31-14 Focus Pilot Pro • centered.png" width="400" title="Multi-Task Setup">
+  <img src="Screenshot 2026-07-07 at 19-31-56 Focus Pilot Pro • centered.png" width="400" title="Active Mission Timer">
 </p>  
 
 # 🎯 Why Focus Pilot Exists
