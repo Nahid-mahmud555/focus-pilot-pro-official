@@ -42,7 +42,6 @@ Rather than relying solely on self-discipline, Focus Pilot redesigns the interac
 <p align="center">
 
 <a href="https://addons.mozilla.org/en-US/firefox/addon/focus-pilot-pro/">
-<img src="https://img.shields.io/badge/Get%20it%20on-Firefox%20Add-ons-FF7139?style=for-the-badge&logo=firefox-browser&logoColor=white">
 </a>
 
 </p>
