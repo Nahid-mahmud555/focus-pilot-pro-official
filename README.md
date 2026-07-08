@@ -23,7 +23,6 @@
 
 ---
 
-# 🎥 Live Demo
 
 <p align="center">
 
