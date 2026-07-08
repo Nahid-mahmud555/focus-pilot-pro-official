@@ -21,6 +21,24 @@
 
 ---
 
+---
+
+# 🎥 Live Demo
+
+<p align="center">
+
+<img src="focus-pilot-demo.gif"
+alt="Focus Pilot Demo"
+width="900"/>
+
+</p>
+
+<p align="center">
+<b>Watch Focus Pilot actively guide your workflow through intelligent interventions, automatic task launches, countdown alerts, and focus checkpoints.</b>
+</p>
+
+---
+
 # 📖 Overview
 
 **Focus Pilot** is a next-generation browser extension engineered to eliminate attention fragmentation during deep work, software development, intensive research, academic study, and other knowledge-intensive workflows.
