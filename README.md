@@ -130,6 +130,18 @@ This minimizes missed sessions and keeps your workflow disciplined.
 
 ---
 
+---
+
+### 📖 Read the Backstory & Design Philosophy
+Want to know why and how I built **Focus Pilot Pro**? Check out the detailed articles published on top developer communities:
+
+*   🌐 **Read on Dev.to:** [How I built an open-source browser guardrail to save my eyes and focus](https://dev.to/nahidmahmud555/how-i-built-an-open-source-browser-guardrail-to-save-my-eyes-and-focus-manifest-v3-1dnk)
+*   🌐 **Read on Hashnode:** [How I built an open-source browser guardrail to save my eyes and focus](https://focus-pilot.hashnode.dev/how-i-built-an-open-source-browser-guardrail-to-save-my-eyes-and-focus-manifest-v3)
+
+Your feedback and stars are highly appreciated! ⭐
+
+---
+
 # 🎯 Why Focus Pilot Exists
 
 Modern browsers have become the primary operating environment for:
